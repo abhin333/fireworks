@@ -1,15 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
-const reveal = {
+const reveal: Variants = {
   hidden: { opacity: 0, y: 40 },
   show: { opacity: 1, y: 0 },
 };
 
-const sectionTransition = { duration: 0.8, ease: "easeOut" as const };
+const sectionTransition = {
+  duration: 0.8,
+  ease: "easeOut" as const,
+};
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -19,19 +22,31 @@ const containerVariants = {
   },
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 50, scale: 0.9 },
   show: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { type: "spring", stiffness: 100, damping: 15 },
+    transition: {
+      type: "spring" as const,
+      stiffness: 100,
+      damping: 15,
+    },
   },
 };
 
 const crackers = [
-  { id: 1, src: "/images/crackers/carckers  (1).jpeg", name: "Premium Sparklers" },
-  { id: 2, src: "/images/crackers/carckers  (2).jpeg", name: "Color Fountains" },
+  {
+    id: 1,
+    src: "/images/crackers/carckers  (1).jpeg",
+    name: "Premium Sparklers",
+  },
+  {
+    id: 2,
+    src: "/images/crackers/carckers  (2).jpeg",
+    name: "Color Fountains",
+  },
   { id: 3, src: "/images/crackers/carckers  (3).jpeg", name: "Sky Shots" },
   { id: 4, src: "/images/crackers/carckers  (4).jpeg", name: "Night Rockets" },
 ];
@@ -47,8 +62,12 @@ export default function CrackersSection() {
       transition={sectionTransition}
     >
       <div className="max-w-[760px] mb-12">
-        <p className="m-0 mb-3 tracking-[0.16em] uppercase text-[0.78rem] text-[#ffd27a]">Our Premium Collection</p>
-        <h2 className="m-0 text-[clamp(1.7rem,3vw,3rem)] leading-[1.2] text-balance font-extrabold text-white">Explosive Joy in Every Box</h2>
+        <p className="m-0 mb-3 tracking-[0.16em] uppercase text-[0.78rem] text-[#ffd27a]">
+          Our Premium Collection
+        </p>
+        <h2 className="m-0 text-[clamp(1.7rem,3vw,3rem)] leading-[1.2] text-balance font-extrabold text-white">
+          Explosive Joy in Every Box
+        </h2>
       </div>
 
       <motion.div
@@ -72,7 +91,7 @@ export default function CrackersSection() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
             </div>
-            
+
             <div className="absolute bottom-0 left-0 w-full p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
               <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#ffd27a] transition-colors duration-300">
                 {cracker.name}

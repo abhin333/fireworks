@@ -1,15 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
-const reveal = {
+const reveal: Variants = {
   hidden: { opacity: 0, y: 40 },
   show: { opacity: 1, y: 0 },
 };
 
-const sectionTransition = { duration: 0.8, ease: "easeOut" as const };
+const sectionTransition = {
+  duration: 0.8,
+  ease: "easeOut" as const,
+};
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -19,33 +22,54 @@ const containerVariants = {
   },
 };
 
-const imageAnimate1 = {
+const imageAnimate1: Variants = {
   hidden: { opacity: 0, scale: 0.9 },
-  show: { opacity: 1, scale: 1, transition: { duration: 1 } },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 1 },
+  },
   animate: {
     y: [0, -10, 0],
-    transition: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+    transition: {
+      duration: 4,
+      repeat: Infinity,
+      ease: "easeInOut" as const,
+    },
   },
 };
 
-const imageAnimate2 = {
+const imageAnimate2: Variants = {
   hidden: { opacity: 0, scale: 0.9 },
-  show: { opacity: 1, scale: 1, transition: { duration: 1, delay: 0.2 } },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 1, delay: 0.2 },
+  },
   animate: {
     y: [0, -15, 0],
-    transition: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 },
+    transition: {
+      duration: 5,
+      repeat: Infinity,
+      ease: "easeInOut" as const,
+      delay: 1,
+    },
   },
 };
 
-const imageAnimate3 = {
+const imageAnimate3: Variants = {
   hidden: { opacity: 0, scale: 0.9 },
-  show: { opacity: 1, scale: 1, transition: { duration: 1, delay: 0.4 } },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 1, delay: 0.4 },
+  },
   animate: {
     y: [0, -8, 0],
     transition: {
       duration: 3.5,
       repeat: Infinity,
-      ease: "easeInOut",
+      ease: "easeInOut" as const,
       delay: 2,
     },
   },
@@ -69,6 +93,7 @@ export default function VisualStory() {
           Space Ready For Your Website Messaging
         </h2>
       </div>
+
       <motion.div
         className="mt-[1.8rem] grid gap-4 grid-cols-[2fr_1fr_1fr] max-md:grid-cols-1"
         variants={containerVariants}
@@ -86,15 +111,6 @@ export default function VisualStory() {
             alt="Hero Visual Area"
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80" />
-          <div className="absolute bottom-6 left-6 z-10">
-            <h3 className="m-0 text-2xl font-bold text-white mb-2 group-hover:text-[#ffd27a] transition-colors duration-300">
-              Hero Visual Area
-            </h3>
-            <p className="m-0 text-[#fff4e3]/80">
-              Capturing the brightest moments
-            </p>
-          </div>
         </motion.div>
 
         <motion.div
@@ -107,12 +123,6 @@ export default function VisualStory() {
             alt="Spark Detail"
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
-          <div className="absolute bottom-6 left-6 right-6 z-10">
-            <p className="m-0 font-semibold text-white group-hover:text-[#ffa32c] transition-colors duration-300">
-              Spark Detail
-            </p>
-          </div>
         </motion.div>
 
         <motion.div
@@ -125,12 +135,6 @@ export default function VisualStory() {
             alt="Firework Burst"
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
-          <div className="absolute bottom-6 left-6 right-6 z-10">
-            <p className="m-0 font-semibold text-white group-hover:text-[#ffa32c] transition-colors duration-300">
-              Firework Burst
-            </p>
-          </div>
         </motion.div>
       </motion.div>
     </motion.section>

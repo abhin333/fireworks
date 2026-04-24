@@ -1,15 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
-const reveal = {
+const reveal: Variants = {
   hidden: { opacity: 0, y: 40 },
   show: { opacity: 1, y: 0 },
 };
 
-const sectionTransition = { duration: 0.8, ease: "easeOut" as const };
+const sectionTransition = {
+  duration: 0.8,
+  ease: "easeOut" as const,
+};
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -19,30 +22,37 @@ const containerVariants = {
   },
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 50, scale: 0.9 },
   show: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { type: "spring", stiffness: 100, damping: 15 },
+    transition: {
+      type: "spring" as const,
+      stiffness: 100,
+      damping: 15,
+    },
   },
 };
 
-const imageVariants = {
+const imageVariants: Variants = {
   hidden: { opacity: 0, scale: 0.95, rotate: -2 },
   show: {
     opacity: 1,
     scale: 1,
     rotate: 0,
-    transition: { duration: 1, ease: "easeOut" },
+    transition: {
+      duration: 1,
+      ease: "easeOut" as const,
+    },
   },
   animate: {
     y: [0, -15, 0],
     transition: {
       duration: 4,
       repeat: Infinity,
-      ease: "easeInOut",
+      ease: "easeInOut" as const,
     },
   },
 };
@@ -75,10 +85,9 @@ export default function FestivalHighlights() {
             whileInView="show"
             viewport={{ once: true, amount: 0.2 }}
           >
-            {/* CARD 1 */}
             <motion.article
-              className="relative bg-[#14141e]/40 border border-white/10 rounded-[20px] py-[1.8rem] px-[1.5rem] backdrop-blur-md overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] shadow-[0_8px_32px_rgba(0,0,0,0.3)] z-1 hover:-translate-y-3 hover:scale-105 hover:border-[#ffa32c]/60 hover:shadow-[0_15px_45px_rgba(255,94,98,0.25),inset_0_0_20px_rgba(255,163,44,0.15)] group before:content-[''] before:absolute before:top-0 before:-left-[150%] before:w-1/2 before:h-full before:bg-gradient-to-r before:from-transparent before:via-white/15 before:to-transparent before:-skew-x-[25deg] before:transition-all before:duration-600 before:-z-10 hover:before:left-[200%]"
               variants={cardVariants}
+              className="relative bg-[#14141e]/40 border border-white/10 rounded-[20px] py-[1.8rem] px-[1.5rem] backdrop-blur-md overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] shadow-[0_8px_32px_rgba(0,0,0,0.3)] z-1 hover:-translate-y-3 hover:scale-105 hover:border-[#ffa32c]/60 hover:shadow-[0_15px_45px_rgba(255,94,98,0.25),inset_0_0_20px_rgba(255,163,44,0.15)] group before:content-[''] before:absolute before:top-0 before:-left-[150%] before:w-1/2 before:h-full before:bg-gradient-to-r before:from-transparent before:via-white/15 before:to-transparent before:-skew-x-[25deg] before:transition-all before:duration-600 before:-z-10 hover:before:left-[200%]"
             >
               <h3 className="m-0 text-[1.3rem] bg-gradient-to-br from-[#ffd27a] to-[#ffa32c] bg-clip-text text-transparent font-bold">
                 Wide Variety
@@ -89,28 +98,19 @@ export default function FestivalHighlights() {
               </p>
             </motion.article>
 
-            {/* CARD 2 */}
-            <motion.article
-              className="relative bg-[#14141e]/40 border border-white/10 rounded-[20px] py-[1.8rem] px-[1.5rem] backdrop-blur-md overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] shadow-[0_8px_32px_rgba(0,0,0,0.3)] z-1 hover:-translate-y-3 hover:scale-105 hover:border-[#ffa32c]/60 hover:shadow-[0_15px_45px_rgba(255,94,98,0.25),inset_0_0_20px_rgba(255,163,44,0.15)] group before:content-[''] before:absolute before:top-0 before:-left-[150%] before:w-1/2 before:h-full before:bg-gradient-to-r before:from-transparent before:via-white/15 before:to-transparent before:-skew-x-[25deg] before:transition-all before:duration-600 before:-z-10 hover:before:left-[200%]"
-              variants={cardVariants}
-            >
-              <h3 className="m-0 text-[1.3rem] bg-gradient-to-br from-[#ffd27a] to-[#ffa32c] bg-clip-text text-transparent font-bold">
-                Safe & Certified
-              </h3>
+            <motion.article variants={cardVariants} className="...same styles">
+              <h3 className="m-0 text-[1.3rem] ...">Safe & Certified</h3>
               <p className="mt-[0.7rem] text-[#fff1db]/85 leading-[1.65]">
                 All our fireworks are quality-tested and safety-certified,
                 ensuring a secure and enjoyable celebration.
               </p>
             </motion.article>
 
-            {/* CARD 3 */}
             <motion.article
-              className="relative bg-[#14141e]/40 border border-white/10 rounded-[20px] py-[1.8rem] px-[1.5rem] backdrop-blur-md overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] shadow-[0_8px_32px_rgba(0,0,0,0.3)] z-1 hover:-translate-y-3 hover:scale-105 hover:border-[#ffa32c]/60 hover:shadow-[0_15px_45px_rgba(255,94,98,0.25),inset_0_0_20px_rgba(255,163,44,0.15)] group md:col-span-2 before:content-[''] before:absolute before:top-0 before:-left-[150%] before:w-1/2 before:h-full before:bg-gradient-to-r before:from-transparent before:via-white/15 before:to-transparent before:-skew-x-[25deg] before:transition-all before:duration-600 before:-z-10 hover:before:left-[200%]"
               variants={cardVariants}
+              className="...same styles md:col-span-2"
             >
-              <h3 className="m-0 text-[1.3rem] bg-gradient-to-br from-[#ffd27a] to-[#ffa32c] bg-clip-text text-transparent font-bold">
-                Festival Combos
-              </h3>
+              <h3 className="m-0 text-[1.3rem] ...">Festival Combos</h3>
               <p className="mt-[0.7rem] text-[#fff1db]/85 leading-[1.65]">
                 Special combo packs curated for festivals with exciting
                 varieties at the best prices.
@@ -133,16 +133,6 @@ export default function FestivalHighlights() {
             alt="Fireworks Celebration"
             className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#020307] via-transparent to-transparent opacity-60" />
-          <div className="absolute bottom-6 left-6 right-6">
-            <div className="h-1 w-12 bg-gradient-to-r from-[#ffd27a] to-[#ffa32c] rounded-full mb-3" />
-            <h4 className="text-xl font-bold text-white mb-1">
-              Light Up Your Celebration
-            </h4>
-            <p className="text-sm text-gray-300">
-              Discover premium fireworks for every occasion
-            </p>
-          </div>
         </motion.div>
       </div>
     </motion.section>

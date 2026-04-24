@@ -52,20 +52,63 @@ export default function Home() {
     [0, 1],
     [0, frames.length - 1],
   );
-  const [currentFrame, setCurrentFrame] = useState(0);
+
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imagesRef = useRef<HTMLImageElement[]>([]);
 
   useMotionValueEvent(frameIndex, "change", (latest) => {
-    setCurrentFrame(Math.round(latest));
+    const index = Math.round(latest);
+    
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d", { alpha: false });
+    if (!canvas || !ctx || !frames[index]) return;
+
+    let img = imagesRef.current[index];
+    if (!img) {
+      img = new Image();
+      // On Netlify, downloading huge unoptimized frames on scroll causes network bottlenecks.
+      // This implementation avoids React re-renders and layout thrashing, 
+      // but you should compress the frames in public/images/Hero/ for best results!
+      img.src = `/images/Hero/${frames[index]}`;
+      imagesRef.current[index] = img;
+    }
+
+    if (img.complete && img.naturalWidth > 0) {
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    } else {
+      img.onload = () => {
+        const currentIndex = Math.round(frameIndex.get());
+        if (currentIndex === index) {
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        }
+      };
+    }
+
+    // Preload next few frames
+    for (let i = 1; i <= 4; i++) {
+      if (index + i < frames.length && !imagesRef.current[index + i]) {
+        const preImg = new Image();
+        preImg.src = `/images/Hero/${frames[index + i]}`;
+        imagesRef.current[index + i] = preImg;
+      }
+    }
   });
 
   useEffect(() => {
-    for (let i = 1; i <= 5; i++) {
-      if (currentFrame + i < frames.length) {
-        const img = new Image();
-        img.src = `/images/Hero/${frames[currentFrame + i]}`;
-      }
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d", { alpha: false });
+    if (canvas && ctx && frames.length > 0) {
+      canvas.width = 1920;
+      canvas.height = 1080;
+      
+      const img = new Image();
+      img.src = `/images/Hero/${frames[0]}`;
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      };
+      imagesRef.current[0] = img;
     }
-  }, [currentFrame]);
+  }, []);
 
   const textOpacity = useTransform(scrollYProgress, [0, 0.05, 1], [1, 0, 0]);
   const textScale = useTransform(scrollYProgress, [0, 0.05, 1], [1, 1.1, 1.1]);
@@ -81,13 +124,10 @@ export default function Home() {
     >
       <section ref={targetRef} className="relative w-full h-[300vh] bg-black">
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-[#02040d]">
-          {frames.length > 0 && (
-            <img
-              src={`/images/Hero/${frames[currentFrame]}`}
-              className="absolute inset-0 w-full h-full object-cover"
-              alt="Hero fireworks animation"
-            />
-          )}
+          <canvas
+            ref={canvasRef}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
           <div className="absolute inset-0 bg-black/40" />
 
           <motion.div

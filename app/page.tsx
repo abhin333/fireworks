@@ -63,34 +63,9 @@ export default function Home() {
     const ctx = canvas?.getContext("2d", { alpha: false });
     if (!canvas || !ctx || !frames[index]) return;
 
-    let img = imagesRef.current[index];
-    if (!img) {
-      img = new Image();
-      // On Netlify, downloading huge unoptimized frames on scroll causes network bottlenecks.
-      // This implementation avoids React re-renders and layout thrashing, 
-      // but you should compress the frames in public/images/Hero/ for best results!
-      img.src = `/images/Hero/${frames[index]}`;
-      imagesRef.current[index] = img;
-    }
-
-    if (img.complete && img.naturalWidth > 0) {
+    const img = imagesRef.current[index];
+    if (img && img.complete && img.naturalWidth > 0) {
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    } else {
-      img.onload = () => {
-        const currentIndex = Math.round(frameIndex.get());
-        if (currentIndex === index) {
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        }
-      };
-    }
-
-    // Preload next few frames
-    for (let i = 1; i <= 4; i++) {
-      if (index + i < frames.length && !imagesRef.current[index + i]) {
-        const preImg = new Image();
-        preImg.src = `/images/Hero/${frames[index + i]}`;
-        imagesRef.current[index + i] = preImg;
-      }
     }
   });
 
@@ -101,14 +76,20 @@ export default function Home() {
       canvas.width = 1920;
       canvas.height = 1080;
       
-      const img = new Image();
-      img.src = `/images/Hero/${frames[0]}`;
-      img.onload = () => {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      };
-      imagesRef.current[0] = img;
+      // Preload all frames to prevent network bottlenecks and dark screens on scroll
+      frames.forEach((frame, index) => {
+        const img = new Image();
+        img.src = `/images/Hero/${frame}`;
+        img.onload = () => {
+          const currentIndex = Math.round(frameIndex.get());
+          if (currentIndex === index || (index === 0 && currentIndex === 0)) {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          }
+        };
+        imagesRef.current[index] = img;
+      });
     }
-  }, []);
+  }, [frameIndex]);
 
   const textOpacity = useTransform(scrollYProgress, [0, 0.05, 1], [1, 0, 0]);
   const textScale = useTransform(scrollYProgress, [0, 0.05, 1], [1, 1.1, 1.1]);
